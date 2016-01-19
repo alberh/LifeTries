@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lifetries.entity.LifeBeing;
 import com.lifetries.entitysystem.MovementSystem;
@@ -26,8 +28,6 @@ public class LifeTries extends ApplicationAdapter {
 
     private BitmapFont font;
     private FPSLogger fps;
-    
-    private float elapsed;
 
     @Override
     public void create() {
@@ -37,10 +37,9 @@ public class LifeTries extends ApplicationAdapter {
         viewPort = new ScreenViewport(camera);
         font = new BitmapFont();
         fps = new FPSLogger();
-        elapsed = 0;
 
-        engine.addSystem(new MovementSystem());
-        engine.addSystem(new NewTargetSystem());
+        engine.addSystem(new MovementSystem(this));
+        engine.addSystem(new NewTargetSystem(this));
 
         generateLife();
 
@@ -61,12 +60,12 @@ public class LifeTries extends ApplicationAdapter {
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
-        elapsed += delta;
         update(delta);
 
+        camera.update();
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
         for (Entity entity : engine.getEntities()) {
@@ -77,13 +76,14 @@ public class LifeTries extends ApplicationAdapter {
         }
 
         batch.end();
-        
+
         fps.log();
     }
 
     @Override
     public void resize(int width, int height) {
         viewPort.update(width, height);
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
     }
 
     @Override

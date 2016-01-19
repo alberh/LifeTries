@@ -50,7 +50,7 @@ public class LifeBeing extends Entity {
         PositionComponent position = Mappers.position.get(this);
         TextureComponent texture = Mappers.texture.get(this);
         ColorComponent color = Mappers.color.get(this);
-        final int size = 5;
+        final int size = 20;
 
         batch.setColor(color.r, color.g, color.b, color.a);
         batch.draw(texture.img, position.x, position.y, size, size);

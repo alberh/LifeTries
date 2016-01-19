@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.lifetries.LifeTries;
 import com.lifetries.Mappers;
 import com.lifetries.component.PositionComponent;
 import com.lifetries.component.TargetPositionComponent;
@@ -13,7 +14,9 @@ import com.lifetries.component.VelocityComponent;
 
 public class NewTargetSystem extends IteratingSystem {
 
-    public NewTargetSystem() {
+    private LifeTries game;
+    
+    public NewTargetSystem(LifeTries game) {
         super(
                 Family.all(
                         PositionComponent.class,
@@ -21,6 +24,8 @@ public class NewTargetSystem extends IteratingSystem {
                         VelocityComponent.class
                 ).get()
         );
+        
+        this.game = game;
     }
 
     @Override
