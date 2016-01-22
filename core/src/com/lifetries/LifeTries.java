@@ -28,6 +28,8 @@ public class LifeTries extends ApplicationAdapter {
 
     private BitmapFont font;
     private FPSLogger fps;
+    
+    private float stateTime;
 
     @Override
     public void create() {
@@ -37,12 +39,14 @@ public class LifeTries extends ApplicationAdapter {
         viewPort = new ScreenViewport(camera);
         font = new BitmapFont();
         fps = new FPSLogger();
+        stateTime = 0;
 
         engine.addSystem(new MovementSystem(this));
         engine.addSystem(new NewTargetSystem(this));
 
+        Assets.load();
+        
         generateLife();
-
         Gdx.graphics.setTitle("Life Tries");
         Gdx.graphics.setVSync(true);
     }
@@ -53,15 +57,13 @@ public class LifeTries extends ApplicationAdapter {
         }
     }
 
-    public void update(float delta) {
-        engine.update(delta);
+    public void update() {
+        engine.update(Gdx.graphics.getDeltaTime());
     }
 
-    @Override
-    public void render() {
-        float delta = Gdx.graphics.getDeltaTime();
-        update(delta);
-
+    public void draw() {
+        stateTime += Gdx.graphics.getDeltaTime();
+        
         camera.update();
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -71,13 +73,19 @@ public class LifeTries extends ApplicationAdapter {
         for (Entity entity : engine.getEntities()) {
             if (entity instanceof LifeBeing) {
                 LifeBeing lifeBeing = (LifeBeing) entity;
-                lifeBeing.draw(batch, font);
+                lifeBeing.draw(batch, font, stateTime);
             }
         }
 
         batch.end();
 
         fps.log();
+    }
+
+    @Override
+    public void render() {
+        update();
+        draw();
     }
 
     @Override

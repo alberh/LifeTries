@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.lifetries.Assets;
 import com.lifetries.LifeTries;
 import com.lifetries.Mappers;
 import com.lifetries.component.PositionComponent;
@@ -41,10 +42,24 @@ public class NewTargetSystem extends IteratingSystem {
 
             float deltaY = target.y - position.y;
             float deltaX = target.x - position.x;
-            float angleD = MathUtils.atan2(deltaY, deltaX);// * 180 / MathUtils.PI * MathUtils.radiansToDegrees;
+            float angle = MathUtils.atan2(deltaY, deltaX);
 
-            velocity.x = MathUtils.cos(angleD);
-            velocity.y = MathUtils.sin(angleD);
+            velocity.x = MathUtils.cos(angle);
+            velocity.y = MathUtils.sin(angle);
+            
+            if (Math.abs(velocity.x) > Math.abs(velocity.y)) {
+                if (velocity.x > 0) {
+                    velocity.lastDirection = VelocityComponent.Direction.Right;
+                } else {
+                    velocity.lastDirection = VelocityComponent.Direction.Left;
+                }
+            } else {
+                if (velocity.y > 0) {
+                    velocity.lastDirection = VelocityComponent.Direction.Up;
+                } else {
+                    velocity.lastDirection = VelocityComponent.Direction.Down;
+                }
+            }
 
             velocity.isMoving = true;
         }

@@ -4,15 +4,18 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.lifetries.Assets;
 import com.lifetries.Mappers;
 import com.lifetries.component.BouncingComponent;
 import com.lifetries.component.ColorComponent;
 import com.lifetries.component.PositionComponent;
 import com.lifetries.component.TargetPositionComponent;
-import com.lifetries.component.TextureComponent;
+import com.lifetries.component.AnimationComponent;
 import com.lifetries.component.VelocityComponent;
 
 public class LifeBeing extends Entity {
@@ -30,10 +33,6 @@ public class LifeBeing extends Entity {
         ps.y = posY;
         add(ps);
 
-        TextureComponent tc = new TextureComponent();
-        tc.img = new Texture("lifebeing.png");
-        add(tc);
-
         add(new VelocityComponent());
         add(new BouncingComponent());
         add(new TargetPositionComponent());
@@ -42,18 +41,64 @@ public class LifeBeing extends Entity {
         cc.g = MathUtils.random();
         cc.b = MathUtils.random();
         add(cc);
+        add(new AnimationComponent());
 
         entityNumber = LifeBeing.entities++;
     }
 
-    public void draw(SpriteBatch batch, BitmapFont font) {
+    public void draw(SpriteBatch batch, BitmapFont font, float elapsed) {
         PositionComponent position = Mappers.position.get(this);
-        TextureComponent texture = Mappers.texture.get(this);
+        VelocityComponent velocity = Mappers.velocity.get(this);
+        AnimationComponent ac = Mappers.texture.get(this);
         ColorComponent color = Mappers.color.get(this);
         final int size = 20;
 
+        if (velocity.isMoving) {
+            switch (velocity.lastDirection) {
+                case Left:
+                    ac.animation = Assets.walkingLeftAnimation;
+                    break;
+
+                case Up:
+                    ac.animation = Assets.walkingUpAnimation;
+                    break;
+
+                case Right:
+                    ac.animation = Assets.walkingRightAnimation;
+                    break;
+
+                case Down:
+                    ac.animation = Assets.walkingDownAnimation;
+                    break;
+            }
+        } else {
+            switch (velocity.lastDirection) {
+                case Left:
+                    ac.animation = Assets.standUpLeftAnimation;
+                    break;
+
+                case Up:
+                    ac.animation = Assets.standUpFrontAnimation;
+                    break;
+
+                case Right:
+                    ac.animation = Assets.standUpRightAnimation;
+                    break;
+
+                case Down:
+                    ac.animation = Assets.standUpBackAmimation;
+                    break;
+            }
+        }
+
         batch.setColor(color.r, color.g, color.b, color.a);
-        batch.draw(texture.img, position.x, position.y, size, size);
+        batch.draw(
+                ac.animation.getKeyFrame(elapsed, true),
+                position.x,
+                position.y,
+                size,
+                size
+        );
         /*
         TargetPositionComponent targetPosition = Mappers.targetPosition.get(this);
         batch.draw(texture.img, targetPosition.x, targetPosition.y, size, size);
