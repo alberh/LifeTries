@@ -9,11 +9,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lifetries.entities.LifeBeing;
 import com.lifetries.systems.AnimationSystem;
 import com.lifetries.systems.DrawingSystem;
+import com.lifetries.systems.EnergySystem;
 import com.lifetries.systems.MovementSystem;
 import com.lifetries.systems.NewTargetSystem;
 
@@ -51,6 +53,7 @@ public class LifeTries extends ApplicationAdapter {
         engine.addSystem(new NewTargetSystem(worldSize));
         engine.addSystem(new MovementSystem());
         engine.addSystem(new AnimationSystem());
+        engine.addSystem(new EnergySystem());
 
         Assets.load();
 
@@ -63,7 +66,7 @@ public class LifeTries extends ApplicationAdapter {
         float x = worldSize.x / 2;
         float y = worldSize.y / 2;
         while (engine.getEntities().size() < 2000) {
-            engine.addEntity(new LifeBeing(x, y));
+            engine.addEntity(new LifeBeing(x, y, MathUtils.randomBoolean()));
         }
     }
 

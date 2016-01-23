@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.lifetries.Mappers;
-import com.lifetries.assets.Assets;
 import com.lifetries.components.AnimationComponent;
 import com.lifetries.components.VelocityComponent;
 
@@ -22,43 +21,43 @@ public class AnimationSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        AnimationComponent ac = Mappers.animation.get(entity);
+        AnimationComponent animation = Mappers.animation.get(entity);
         VelocityComponent velocity = Mappers.velocity.get(entity);
 
         if (velocity.isMoving) {
             switch (velocity.lastDirection) {
                 case Left:
-                    ac.animation = Assets.lifeBeing.walkingLeftAnimation;
+                    animation.currentAnimation = animation.animationSet.walkingLeftAnimation;
                     break;
 
                 case Up:
-                    ac.animation = Assets.lifeBeing.walkingUpAnimation;
+                    animation.currentAnimation = animation.animationSet.walkingUpAnimation;
                     break;
 
                 case Right:
-                    ac.animation = Assets.lifeBeing.walkingRightAnimation;
+                    animation.currentAnimation = animation.animationSet.walkingRightAnimation;
                     break;
 
                 case Down:
-                    ac.animation = Assets.lifeBeing.walkingDownAnimation;
+                    animation.currentAnimation = animation.animationSet.walkingDownAnimation;
                     break;
             }
         } else {
             switch (velocity.lastDirection) {
                 case Left:
-                    ac.animation = Assets.lifeBeing.standUpLeftAnimation;
+                    animation.currentAnimation = animation.animationSet.standUpLeftAnimation;
                     break;
 
                 case Up:
-                    ac.animation = Assets.lifeBeing.standUpFrontAnimation;
+                    animation.currentAnimation = animation.animationSet.standUpFrontAnimation;
                     break;
 
                 case Right:
-                    ac.animation = Assets.lifeBeing.standUpRightAnimation;
+                    animation.currentAnimation = animation.animationSet.standUpRightAnimation;
                     break;
 
                 case Down:
-                    ac.animation = Assets.lifeBeing.standUpBackAmimation;
+                    animation.currentAnimation = animation.animationSet.standUpBackAmimation;
                     break;
             }
         }

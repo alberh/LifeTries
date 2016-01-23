@@ -41,7 +41,7 @@ public class DrawingSystem {
 
             batch.setColor(color.r, color.g, color.b, color.a);
             batch.draw(
-                    ac.animation.getKeyFrame(elapsed, true),
+                    ac.currentAnimation.getKeyFrame(elapsed, true),
                     position.x,
                     position.y,
                     size,

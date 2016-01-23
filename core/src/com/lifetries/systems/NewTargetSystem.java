@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.lifetries.Mappers;
+import com.lifetries.components.EnergyComponent;
 import com.lifetries.components.PositionComponent;
 import com.lifetries.components.TargetPositionComponent;
 import com.lifetries.components.VelocityComponent;
@@ -19,7 +20,8 @@ public class NewTargetSystem extends IteratingSystem {
                 Family.all(
                         PositionComponent.class,
                         TargetPositionComponent.class,
-                        VelocityComponent.class
+                        VelocityComponent.class,
+                        EnergyComponent.class
                 ).get(),
                 0
         );
@@ -32,8 +34,9 @@ public class NewTargetSystem extends IteratingSystem {
         PositionComponent position = Mappers.position.get(entity);
         TargetPositionComponent target = Mappers.targetPosition.get(entity);
         VelocityComponent velocity = Mappers.velocity.get(entity);
+        EnergyComponent energy = Mappers.energy.get(entity);
 
-        if (!velocity.isMoving) {
+        if (!velocity.isMoving && energy.currentEnergy > 0) {
             Vector2 newCoords = getNewCoords();
             target.x = newCoords.x;
             target.y = newCoords.y;

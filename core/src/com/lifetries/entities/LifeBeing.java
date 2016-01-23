@@ -16,6 +16,7 @@ import com.lifetries.components.ColorComponent;
 import com.lifetries.components.PositionComponent;
 import com.lifetries.components.TargetPositionComponent;
 import com.lifetries.components.AnimationComponent;
+import com.lifetries.components.EnergyComponent;
 import com.lifetries.components.VelocityComponent;
 
 public class LifeBeing extends Entity {
@@ -24,10 +25,10 @@ public class LifeBeing extends Entity {
     private int entityNumber;
 
     public LifeBeing() {
-        this(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        this(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, false);
     }
 
-    public LifeBeing(float posX, float posY) {
+    public LifeBeing(float posX, float posY, boolean skinB) {
         PositionComponent ps = new PositionComponent();
         ps.x = posX;
         ps.y = posY;
@@ -41,7 +42,14 @@ public class LifeBeing extends Entity {
         cc.g = MathUtils.random();
         cc.b = MathUtils.random();
         add(cc);
-        add(new AnimationComponent());
+        AnimationComponent entityAnimation = new AnimationComponent();
+        if (skinB) {
+            entityAnimation.animationSet = Assets.lifeBeing.skinB;
+        } else {
+            entityAnimation.animationSet = Assets.lifeBeing.skinA;
+        }
+        add(entityAnimation);
+        add(new EnergyComponent());
 
         entityNumber = LifeBeing.entities++;
     }

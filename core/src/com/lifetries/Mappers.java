@@ -5,6 +5,7 @@ import com.lifetries.components.ColorComponent;
 import com.lifetries.components.PositionComponent;
 import com.lifetries.components.TargetPositionComponent;
 import com.lifetries.components.AnimationComponent;
+import com.lifetries.components.EnergyComponent;
 import com.lifetries.components.VelocityComponent;
 
 public abstract class Mappers {
@@ -14,4 +15,5 @@ public abstract class Mappers {
     public static final ComponentMapper<TargetPositionComponent> targetPosition = ComponentMapper.getFor(TargetPositionComponent.class);
     public static final ComponentMapper<AnimationComponent> animation = ComponentMapper.getFor(AnimationComponent.class);
     public static final ComponentMapper<ColorComponent> color = ComponentMapper.getFor(ColorComponent.class);
+    public static final ComponentMapper<EnergyComponent> energy = ComponentMapper.getFor(EnergyComponent.class);
 }
