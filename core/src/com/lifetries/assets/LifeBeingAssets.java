@@ -6,17 +6,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class LifeBeingAssets {
 
-    public static Texture lifeBeingTexture;
-    public static Animation standUpFrontAnimation;
-    public static Animation standUpRightAnimation;
-    public static Animation standUpLeftAnimation;
-    public static Animation standUpBackAmimation;
-    public static Animation walkingUpAnimation;
-    public static Animation walkingRightAnimation;
-    public static Animation walkingLeftAnimation;
-    public static Animation walkingDownAnimation;
+    public Texture lifeBeingTexture;
+    public Animation standUpFrontAnimation;
+    public Animation standUpRightAnimation;
+    public Animation standUpLeftAnimation;
+    public Animation standUpBackAmimation;
+    public Animation walkingUpAnimation;
+    public Animation walkingRightAnimation;
+    public Animation walkingLeftAnimation;
+    public Animation walkingDownAnimation;
 
-    public static void load() {
+    public void load() {
         lifeBeingTexture = new Texture("lifebeing.png");
         TextureRegion standUpFront0 = new TextureRegion(
                 lifeBeingTexture, 0, 0, 10, 10

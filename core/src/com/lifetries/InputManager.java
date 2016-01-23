@@ -2,9 +2,57 @@ package com.lifetries;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+
+class MyInputProcessor implements InputProcessor {
+
+    private int screenWidth;
+    private int screenHeight;
+    
+    @Override
+    public boolean keyDown(int keycode) {
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return true;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return true;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return true;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return true;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return true;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return true;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return true;
+    }
+    
+}
 
 public class InputManager {
 
@@ -14,13 +62,15 @@ public class InputManager {
 
     private final OrthographicCamera camera;
     private final Vector2 worldSize;
-
+    
     private int screenWidth;
     private int screenHeight;
 
     public InputManager(OrthographicCamera camera, Vector2 worldSize) {
         this.camera = camera;
         this.worldSize = worldSize;
+
+        Gdx.input.setInputProcessor(new MyInputProcessor());
     }
 
     public void update(float deltaTime) {
@@ -77,10 +127,9 @@ public class InputManager {
     }
 
     private void updateOptions() {
-        /*
-        if (Gdx.input.) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
             boolean fullScreen = Gdx.graphics.isFullscreen();
-            if (fullScreen) {
+            if (!fullScreen) {
                 screenWidth = Gdx.graphics.getWidth();
                 screenHeight = Gdx.graphics.getHeight();
 
@@ -90,6 +139,6 @@ public class InputManager {
             } else {
                 Gdx.graphics.setWindowedMode(screenWidth, screenHeight);
             }
-        }*/
+        }
     }
 }

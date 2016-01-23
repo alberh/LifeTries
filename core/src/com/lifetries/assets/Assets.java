@@ -6,7 +6,7 @@ public abstract class Assets {
 
     public static void load() {
         lifeBeing = new LifeBeingAssets();
-        LifeBeingAssets.load();
+        lifeBeing.load();
     }
     
     public static void dispose() {
