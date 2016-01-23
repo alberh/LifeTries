@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lifetries.entity.LifeBeing;
+import com.lifetries.entitysystem.DrawingSystem;
 import com.lifetries.entitysystem.MovementSystem;
 import com.lifetries.entitysystem.NewTargetSystem;
 
@@ -22,6 +23,7 @@ public class LifeTries extends ApplicationAdapter {
 
     private SpriteBatch batch;
     private Engine engine;
+    private DrawingSystem drawingSystem;
 
     private Camera camera;
     private ScreenViewport viewPort;
@@ -29,17 +31,19 @@ public class LifeTries extends ApplicationAdapter {
     private BitmapFont font;
     private FPSLogger fps;
     
-    private float stateTime;
+    private float deltaTime;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         engine = new Engine();
+        drawingSystem = new DrawingSystem(engine, batch);
+        
         camera = new OrthographicCamera();
         viewPort = new ScreenViewport(camera);
         font = new BitmapFont();
         fps = new FPSLogger();
-        stateTime = 0;
+        deltaTime = 0;
 
         engine.addSystem(new MovementSystem(this));
         engine.addSystem(new NewTargetSystem(this));
@@ -62,20 +66,16 @@ public class LifeTries extends ApplicationAdapter {
     }
 
     public void draw() {
-        stateTime += Gdx.graphics.getDeltaTime();
+        deltaTime += Gdx.graphics.getDeltaTime();
         
         camera.update();
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
+        
         batch.begin();
 
-        for (Entity entity : engine.getEntities()) {
-            if (entity instanceof LifeBeing) {
-                LifeBeing lifeBeing = (LifeBeing) entity;
-                lifeBeing.draw(batch, font, stateTime);
-            }
-        }
+        drawingSystem.draw(deltaTime);
 
         batch.end();
 
