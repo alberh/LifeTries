@@ -1,10 +1,9 @@
-package com.lifetries.entitysystem;
+package com.lifetries.system;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
-import com.lifetries.LifeTries;
 import com.lifetries.Mappers;
 import com.lifetries.component.BouncingComponent;
 import com.lifetries.component.PositionComponent;
@@ -13,18 +12,15 @@ import com.lifetries.component.VelocityComponent;
 
 public class MovementSystem extends IteratingSystem {
 
-    private final LifeTries game;
-    
-    public MovementSystem(LifeTries game) {
+    public MovementSystem() {
         super(
                 Family.all(
                         PositionComponent.class,
                         VelocityComponent.class,
                         BouncingComponent.class
-                ).get()
+                ).get(),
+                1
         );
-        
-        this.game = game;
     }
 
     @Override

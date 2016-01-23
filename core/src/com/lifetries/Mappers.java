@@ -12,6 +12,6 @@ public abstract class Mappers {
     public static final ComponentMapper<PositionComponent> position = ComponentMapper.getFor(PositionComponent.class);
     public static final ComponentMapper<VelocityComponent> velocity = ComponentMapper.getFor(VelocityComponent.class);
     public static final ComponentMapper<TargetPositionComponent> targetPosition = ComponentMapper.getFor(TargetPositionComponent.class);
-    public static final ComponentMapper<AnimationComponent> texture = ComponentMapper.getFor(AnimationComponent.class);
+    public static final ComponentMapper<AnimationComponent> animation = ComponentMapper.getFor(AnimationComponent.class);
     public static final ComponentMapper<ColorComponent> color = ComponentMapper.getFor(ColorComponent.class);
 }
