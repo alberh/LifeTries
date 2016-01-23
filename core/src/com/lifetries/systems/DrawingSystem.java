@@ -1,4 +1,4 @@
-package com.lifetries.system;
+package com.lifetries.systems;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -6,9 +6,9 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lifetries.Mappers;
-import com.lifetries.component.AnimationComponent;
-import com.lifetries.component.ColorComponent;
-import com.lifetries.component.PositionComponent;
+import com.lifetries.components.AnimationComponent;
+import com.lifetries.components.ColorComponent;
+import com.lifetries.components.PositionComponent;
 
 public class DrawingSystem {
 

@@ -1,11 +1,11 @@
 package com.lifetries;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import com.lifetries.component.ColorComponent;
-import com.lifetries.component.PositionComponent;
-import com.lifetries.component.TargetPositionComponent;
-import com.lifetries.component.AnimationComponent;
-import com.lifetries.component.VelocityComponent;
+import com.lifetries.components.ColorComponent;
+import com.lifetries.components.PositionComponent;
+import com.lifetries.components.TargetPositionComponent;
+import com.lifetries.components.AnimationComponent;
+import com.lifetries.components.VelocityComponent;
 
 public abstract class Mappers {
     

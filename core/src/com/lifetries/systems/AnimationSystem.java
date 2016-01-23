@@ -1,12 +1,12 @@
-package com.lifetries.system;
+package com.lifetries.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.lifetries.Assets;
 import com.lifetries.Mappers;
-import com.lifetries.component.AnimationComponent;
-import com.lifetries.component.VelocityComponent;
+import com.lifetries.assets.LifeBeingAssets;
+import com.lifetries.components.AnimationComponent;
+import com.lifetries.components.VelocityComponent;
 
 public class AnimationSystem extends IteratingSystem {
 
@@ -28,37 +28,37 @@ public class AnimationSystem extends IteratingSystem {
         if (velocity.isMoving) {
             switch (velocity.lastDirection) {
                 case Left:
-                    ac.animation = Assets.walkingLeftAnimation;
+                    ac.animation = LifeBeingAssets.walkingLeftAnimation;
                     break;
 
                 case Up:
-                    ac.animation = Assets.walkingUpAnimation;
+                    ac.animation = LifeBeingAssets.walkingUpAnimation;
                     break;
 
                 case Right:
-                    ac.animation = Assets.walkingRightAnimation;
+                    ac.animation = LifeBeingAssets.walkingRightAnimation;
                     break;
 
                 case Down:
-                    ac.animation = Assets.walkingDownAnimation;
+                    ac.animation = LifeBeingAssets.walkingDownAnimation;
                     break;
             }
         } else {
             switch (velocity.lastDirection) {
                 case Left:
-                    ac.animation = Assets.standUpLeftAnimation;
+                    ac.animation = LifeBeingAssets.standUpLeftAnimation;
                     break;
 
                 case Up:
-                    ac.animation = Assets.standUpFrontAnimation;
+                    ac.animation = LifeBeingAssets.standUpFrontAnimation;
                     break;
 
                 case Right:
-                    ac.animation = Assets.standUpRightAnimation;
+                    ac.animation = LifeBeingAssets.standUpRightAnimation;
                     break;
 
                 case Down:
-                    ac.animation = Assets.standUpBackAmimation;
+                    ac.animation = LifeBeingAssets.standUpBackAmimation;
                     break;
             }
         }

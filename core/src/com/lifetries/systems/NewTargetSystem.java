@@ -1,4 +1,4 @@
-package com.lifetries.system;
+package com.lifetries.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -6,9 +6,9 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.lifetries.Mappers;
-import com.lifetries.component.PositionComponent;
-import com.lifetries.component.TargetPositionComponent;
-import com.lifetries.component.VelocityComponent;
+import com.lifetries.components.PositionComponent;
+import com.lifetries.components.TargetPositionComponent;
+import com.lifetries.components.VelocityComponent;
 
 public class NewTargetSystem extends IteratingSystem {
     

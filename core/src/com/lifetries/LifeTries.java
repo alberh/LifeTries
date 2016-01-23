@@ -1,29 +1,27 @@
 package com.lifetries;
 
+import com.lifetries.assets.Assets;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.lifetries.entity.LifeBeing;
-import com.lifetries.system.AnimationSystem;
-import com.lifetries.system.DrawingSystem;
-import com.lifetries.system.MovementSystem;
-import com.lifetries.system.NewTargetSystem;
+import com.lifetries.entities.LifeBeing;
+import com.lifetries.systems.AnimationSystem;
+import com.lifetries.systems.DrawingSystem;
+import com.lifetries.systems.MovementSystem;
+import com.lifetries.systems.NewTargetSystem;
 
 public class LifeTries extends ApplicationAdapter {
 
     private SpriteBatch batch;
     private Engine engine;
+    private InputManager inputManager;
     private DrawingSystem drawingSystem;
 
     private OrthographicCamera camera;
@@ -45,6 +43,8 @@ public class LifeTries extends ApplicationAdapter {
         camera.translate(worldSize.x / 2, worldSize.y / 2, 0);
         viewPort = new ScreenViewport(camera);
 
+        inputManager = new InputManager(camera, worldSize);
+
         font = new BitmapFont();
         fps = new FPSLogger();
 
@@ -60,65 +60,22 @@ public class LifeTries extends ApplicationAdapter {
     }
 
     private void generateLife() {
+        float x = worldSize.x / 2;
+        float y = worldSize.y / 2;
         while (engine.getEntities().size() < 2000) {
-            engine.addEntity(new LifeBeing(worldSize.x / 2, worldSize.y / 2));
+            engine.addEntity(new LifeBeing(x, y));
         }
     }
 
     public void update(float deltaTime) {
+        inputManager.update(deltaTime);
         engine.update(deltaTime);
-
-        float cameraSpeed = 400;
-        float scalar = deltaTime * cameraSpeed;
-        Vector3 movement = new Vector3();
-
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            movement.x = -1;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            movement.x += 1;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            movement.y = 1;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            movement.y += -1;
-        }
-        movement.scl(scalar);
-
-        Vector3 newPosition = new Vector3(camera.position).add(movement);
-        if (newPosition.x < 0) {
-            movement.x = -camera.position.x;
-        }
-        if (newPosition.x > worldSize.x) {
-            movement.x = worldSize.x - camera.position.x;
-        }
-        if (newPosition.y < 0) {
-            movement.y = -camera.position.y;
-        }
-        if (newPosition.y > worldSize.y) {
-            movement.y = worldSize.y - camera.position.y;
-        }
-
-        camera.translate(movement);
-        
-        // zoom
-        float zoomSpeed = 1.5f;
-        if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
-            camera.zoom -= zoomSpeed * deltaTime;
-            if (camera.zoom < 0.1) {
-                camera.zoom = 0.1f;
-            }
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.X)) {
-            camera.zoom += zoomSpeed * deltaTime;
-        }
     }
 
     public void draw(float deltaTime) {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-        
+
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -145,5 +102,6 @@ public class LifeTries extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
         font.dispose();
+        Assets.dispose();
     }
 }

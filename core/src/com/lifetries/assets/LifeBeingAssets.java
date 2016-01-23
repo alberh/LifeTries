@@ -1,10 +1,10 @@
-package com.lifetries;
+package com.lifetries.assets;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public abstract class Assets {
+public class LifeBeingAssets {
 
     public static Texture lifeBeingTexture;
     public static Animation standUpFrontAnimation;
@@ -19,52 +19,52 @@ public abstract class Assets {
     public static void load() {
         lifeBeingTexture = new Texture("lifebeing.png");
         TextureRegion standUpFront0 = new TextureRegion(
-                Assets.lifeBeingTexture, 0, 0, 10, 10
+                lifeBeingTexture, 0, 0, 10, 10
         );
         TextureRegion standUpFront1 = new TextureRegion(
-                Assets.lifeBeingTexture, 10, 0, 10, 10
+                lifeBeingTexture, 10, 0, 10, 10
         );
         TextureRegion standUpRight0 = new TextureRegion(
-                Assets.lifeBeingTexture, 0, 10, 10, 10
+                lifeBeingTexture, 0, 10, 10, 10
         );
         TextureRegion standUpRight1 = new TextureRegion(
-                Assets.lifeBeingTexture, 10, 10, 10, 10
+                lifeBeingTexture, 10, 10, 10, 10
         );
         TextureRegion standUpLeft0 = new TextureRegion(
-                Assets.lifeBeingTexture, 9, 10, -10, 10
+                lifeBeingTexture, 9, 10, -10, 10
         );
         TextureRegion standUpLeft1 = new TextureRegion(
-                Assets.lifeBeingTexture, 19, 10, -10, 10
+                lifeBeingTexture, 19, 10, -10, 10
         );
         TextureRegion standUpBack0 = new TextureRegion(
-                Assets.lifeBeingTexture, 0, 20, 10, 10
+                lifeBeingTexture, 0, 20, 10, 10
         );
         TextureRegion standUpBack1 = new TextureRegion(
-                Assets.lifeBeingTexture, 10, 20, 10, 10
+                lifeBeingTexture, 10, 20, 10, 10
         );
         TextureRegion walkingFront0 = new TextureRegion(
-                Assets.lifeBeingTexture, 20, 0, 10, 10
+                lifeBeingTexture, 20, 0, 10, 10
         );
         TextureRegion walkingFront1 = new TextureRegion(
-                Assets.lifeBeingTexture, 30, 0, 10, 10
+                lifeBeingTexture, 30, 0, 10, 10
         );
         TextureRegion walkingRight0 = new TextureRegion(
-                Assets.lifeBeingTexture, 20, 10, 10, 10
+                lifeBeingTexture, 20, 10, 10, 10
         );
         TextureRegion walkingRight1 = new TextureRegion(
-                Assets.lifeBeingTexture, 30, 10, 10, 10
+                lifeBeingTexture, 30, 10, 10, 10
         );
         TextureRegion walkingLeft0 = new TextureRegion(
-                Assets.lifeBeingTexture, 29, 10, -10, 10
+                lifeBeingTexture, 29, 10, -10, 10
         );
         TextureRegion walkingLeft1 = new TextureRegion(
-                Assets.lifeBeingTexture, 39, 10, -10, 10
+                lifeBeingTexture, 39, 10, -10, 10
         );
         TextureRegion walkingBack0 = new TextureRegion(
-                Assets.lifeBeingTexture, 20, 20, 10, 10
+                lifeBeingTexture, 20, 20, 10, 10
         );
         TextureRegion walkingBack1 = new TextureRegion(
-                Assets.lifeBeingTexture, 30, 20, 10, 10
+                lifeBeingTexture, 30, 20, 10, 10
         );
         standUpFrontAnimation = new Animation(
                 1, standUpFront0, standUpFront1
@@ -90,5 +90,9 @@ public abstract class Assets {
         walkingDownAnimation = new Animation(
                 0.1f, standUpFront0, walkingFront0, standUpFront0, walkingFront1
         );
+    }
+    
+    public void dispose() {
+        lifeBeingTexture.dispose();
     }
 }

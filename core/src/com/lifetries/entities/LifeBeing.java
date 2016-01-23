@@ -1,4 +1,4 @@
-package com.lifetries.entity;
+package com.lifetries.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
@@ -9,14 +9,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.lifetries.Assets;
+import com.lifetries.assets.Assets;
 import com.lifetries.Mappers;
-import com.lifetries.component.BouncingComponent;
-import com.lifetries.component.ColorComponent;
-import com.lifetries.component.PositionComponent;
-import com.lifetries.component.TargetPositionComponent;
-import com.lifetries.component.AnimationComponent;
-import com.lifetries.component.VelocityComponent;
+import com.lifetries.components.BouncingComponent;
+import com.lifetries.components.ColorComponent;
+import com.lifetries.components.PositionComponent;
+import com.lifetries.components.TargetPositionComponent;
+import com.lifetries.components.AnimationComponent;
+import com.lifetries.components.VelocityComponent;
 
 public class LifeBeing extends Entity {
 

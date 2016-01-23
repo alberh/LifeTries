@@ -1,4 +1,4 @@
-package com.lifetries.component;
+package com.lifetries.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.Animation;
