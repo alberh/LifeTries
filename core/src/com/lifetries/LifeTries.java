@@ -18,6 +18,7 @@ import com.lifetries.systems.DrawingSystem;
 import com.lifetries.systems.EnergySystem;
 import com.lifetries.systems.MovementSystem;
 import com.lifetries.systems.NewTargetSystem;
+import com.lifetries.systems.StateSystem;
 
 public class LifeTries extends ApplicationAdapter {
 
@@ -50,6 +51,7 @@ public class LifeTries extends ApplicationAdapter {
         font = new BitmapFont();
         fps = new FPSLogger();
 
+        engine.addSystem(new StateSystem());
         engine.addSystem(new NewTargetSystem(worldSize));
         engine.addSystem(new MovementSystem());
         engine.addSystem(new AnimationSystem());
@@ -63,10 +65,14 @@ public class LifeTries extends ApplicationAdapter {
     }
 
     private void generateLife() {
-        float x = worldSize.x / 2;
-        float y = worldSize.y / 2;
         while (engine.getEntities().size() < 2000) {
-            engine.addEntity(new LifeBeing(x, y, MathUtils.randomBoolean()));
+            engine.addEntity(
+                    new LifeBeing(
+                            MathUtils.random() * worldSize.x,
+                            MathUtils.random() * worldSize.y,
+                            MathUtils.randomBoolean()
+                    )
+            );
         }
     }
 

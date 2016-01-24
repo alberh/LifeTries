@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.lifetries.Mappers;
 import com.lifetries.components.AnimationComponent;
+import com.lifetries.components.StateComponent;
 import com.lifetries.components.VelocityComponent;
 
 public class AnimationSystem extends IteratingSystem {
@@ -13,9 +14,10 @@ public class AnimationSystem extends IteratingSystem {
         super(
                 Family.all(
                         AnimationComponent.class,
-                        VelocityComponent.class
+                        VelocityComponent.class,
+                        StateComponent.class
                 ).get(),
-                2
+                3
         );
     }
 
@@ -23,8 +25,9 @@ public class AnimationSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         AnimationComponent animation = Mappers.animation.get(entity);
         VelocityComponent velocity = Mappers.velocity.get(entity);
-
-        if (velocity.isMoving) {
+        StateComponent state = Mappers.state.get(entity);
+                
+        if (state.isMoving) {
             switch (velocity.lastDirection) {
                 case Left:
                     animation.currentAnimation = animation.animationSet.walkingLeftAnimation;

@@ -10,7 +10,6 @@ public class VelocityComponent implements Component {
     
     public float x = 0;
     public float y = 0;
-    public boolean isMoving = false;
     public float speed = 100;
     public Direction lastDirection = Direction.Down;
 }

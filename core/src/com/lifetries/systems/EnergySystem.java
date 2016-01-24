@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.lifetries.Mappers;
 import com.lifetries.components.EnergyComponent;
-import com.lifetries.components.VelocityComponent;
+import com.lifetries.components.StateComponent;
 
 public class EnergySystem extends IteratingSystem {
 
@@ -13,22 +13,23 @@ public class EnergySystem extends IteratingSystem {
         super(
                 Family.all(
                         EnergyComponent.class,
-                        VelocityComponent.class
+                        StateComponent.class
                 ).get(),
-                3
+                4
         );
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         EnergyComponent energy = Mappers.energy.get(entity);
-        VelocityComponent velocity = Mappers.velocity.get(entity);
-        
-        energy.currentEnergy -= energy.energyLoss * deltaTime;
-        if (energy.currentEnergy < 0) {
-            energy.currentEnergy = 0;
-            velocity.isMoving = false;
+        StateComponent state = Mappers.state.get(entity);
+
+        if (state.hasEnergy) {
+            energy.currentEnergy
+                    = Math.max(energy.currentEnergy - energy.energyLoss * deltaTime, 0);
+        } else if (state.isChargingEnergy && energy.currentEnergy < energy.energyMax) {
+            energy.currentEnergy
+                    = Math.min(energy.currentEnergy + 3 * energy.energyLoss, energy.energyMax);
         }
     }
-
 }

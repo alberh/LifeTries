@@ -6,14 +6,14 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.lifetries.Mappers;
-import com.lifetries.components.EnergyComponent;
 import com.lifetries.components.PositionComponent;
+import com.lifetries.components.StateComponent;
 import com.lifetries.components.TargetPositionComponent;
 import com.lifetries.components.VelocityComponent;
 
 public class NewTargetSystem extends IteratingSystem {
     
-    private Vector2 world;
+    private final Vector2 worldSize;
     
     public NewTargetSystem(Vector2 world) {
         super(
@@ -21,12 +21,12 @@ public class NewTargetSystem extends IteratingSystem {
                         PositionComponent.class,
                         TargetPositionComponent.class,
                         VelocityComponent.class,
-                        EnergyComponent.class
+                        StateComponent.class
                 ).get(),
-                0
+                1
         );
         
-        this.world = world;
+        this.worldSize = world;
     }
 
     @Override
@@ -34,9 +34,11 @@ public class NewTargetSystem extends IteratingSystem {
         PositionComponent position = Mappers.position.get(entity);
         TargetPositionComponent target = Mappers.targetPosition.get(entity);
         VelocityComponent velocity = Mappers.velocity.get(entity);
-        EnergyComponent energy = Mappers.energy.get(entity);
+        StateComponent state = Mappers.state.get(entity);
 
-        if (!velocity.isMoving && energy.currentEnergy > 0) {
+        if (state.wantsToLook) {
+            state.wantsToLook = false;
+            
             Vector2 newCoords = getNewCoords();
             target.x = newCoords.x;
             target.y = newCoords.y;
@@ -59,15 +61,13 @@ public class NewTargetSystem extends IteratingSystem {
             } else {
                 velocity.lastDirection = VelocityComponent.Direction.Down;
             }
-
-            velocity.isMoving = true;
         }
     }
 
-    public Vector2 getNewCoords() {
+    private Vector2 getNewCoords() {
         return new Vector2(
-                MathUtils.random() * world.x,
-                MathUtils.random() * world.y
+                MathUtils.random() * worldSize.x,
+                MathUtils.random() * worldSize.y
         );
     }
 }

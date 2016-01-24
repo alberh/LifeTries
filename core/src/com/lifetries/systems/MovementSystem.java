@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.lifetries.Mappers;
 import com.lifetries.components.BouncingComponent;
 import com.lifetries.components.PositionComponent;
+import com.lifetries.components.StateComponent;
 import com.lifetries.components.TargetPositionComponent;
 import com.lifetries.components.VelocityComponent;
 
@@ -17,9 +18,10 @@ public class MovementSystem extends IteratingSystem {
                 Family.all(
                         PositionComponent.class,
                         VelocityComponent.class,
-                        BouncingComponent.class
+                        BouncingComponent.class,
+                        StateComponent.class
                 ).get(),
-                1
+                2
         );
     }
 
@@ -28,8 +30,9 @@ public class MovementSystem extends IteratingSystem {
         PositionComponent position = Mappers.position.get(entity);
         TargetPositionComponent targetPosition = Mappers.targetPosition.get(entity);
         VelocityComponent velocity = Mappers.velocity.get(entity);
+        StateComponent state = Mappers.state.get(entity);
 
-        if (velocity.isMoving) {
+        if (state.hasEnergy && state.isMoving) {
             Vector2 start = new Vector2(position.x, position.y);
             Vector2 end = new Vector2(targetPosition.x, targetPosition.y);
             float distance = start.dst(end);
@@ -44,7 +47,8 @@ public class MovementSystem extends IteratingSystem {
                 position.x = newPosition.x;
                 position.y = newPosition.y;
             } else {
-                velocity.isMoving = false;
+                position.x = targetPosition.x;
+                position.y = targetPosition.y;
             }
         }
     }
