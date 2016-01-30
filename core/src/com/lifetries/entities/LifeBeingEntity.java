@@ -13,13 +13,13 @@ import com.lifetries.components.EnergyComponent;
 import com.lifetries.components.StateComponent;
 import com.lifetries.components.VelocityComponent;
 
-public class LifeBeing extends Entity {
+public class LifeBeingEntity extends Entity {
 
-    public LifeBeing() {
+    public LifeBeingEntity() {
         this(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, false);
     }
 
-    public LifeBeing(float posX, float posY, boolean skinB) {
+    public LifeBeingEntity(float posX, float posY, boolean skinB) {
         add(new EnergyComponent());
         add(new StateComponent());
         add(new VelocityComponent());

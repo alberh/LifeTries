@@ -1,4 +1,4 @@
-package com.lifetries.systems;
+package com.lifetries;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -9,6 +9,7 @@ import com.lifetries.Mappers;
 import com.lifetries.components.AnimationComponent;
 import com.lifetries.components.ColorComponent;
 import com.lifetries.components.PositionComponent;
+import com.lifetries.components.StateComponent;
 
 public class DrawingSystem {
 
@@ -23,7 +24,8 @@ public class DrawingSystem {
         family = Family.all(
                 PositionComponent.class,
                 AnimationComponent.class,
-                ColorComponent.class
+                ColorComponent.class,
+                StateComponent.class
         ).get();
         elapsed = 0;
     }
@@ -41,18 +43,12 @@ public class DrawingSystem {
 
             batch.setColor(color.r, color.g, color.b, color.a);
             batch.draw(
-                    ac.currentAnimation.getKeyFrame(elapsed, true),
+                    ac.currentTexture,
                     position.x,
                     position.y,
                     size,
                     size
             );
-            /*
-        TargetPositionComponent targetPosition = Mappers.targetPosition.get(this);
-        batch.draw(texture.img, targetPosition.x, targetPosition.y, size, size);
-        font.setColor(Color.BLACK);
-        font.draw(batch, "" + entityNumber, position.x - 2, position.y + 18);
-        font.draw(batch, "" + entityNumber, targetPosition.x - 2, targetPosition.y + 18);*/
         }
     }
 }

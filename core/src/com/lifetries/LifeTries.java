@@ -11,45 +11,55 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.lifetries.entities.LifeBeing;
+import com.lifetries.entities.LifeBeingEntity;
 import com.lifetries.systems.AnimationSystem;
-import com.lifetries.systems.DrawingSystem;
 import com.lifetries.systems.EnergySystem;
 import com.lifetries.systems.MovementSystem;
 import com.lifetries.systems.NewTargetSystem;
 import com.lifetries.systems.StateSystem;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 
 public class LifeTries extends ApplicationAdapter {
 
+    // Front-end
     private SpriteBatch batch;
-    private Engine engine;
-    private InputManager inputManager;
-    private DrawingSystem drawingSystem;
+    private ScreenManager screenManager;
 
+    private Stage stage;
     private OrthographicCamera camera;
     private ScreenViewport viewPort;
+
     private Vector2 worldSize;
 
     private BitmapFont font;
     private FPSLogger fps;
 
+    // Back-end
+    private Engine engine;
+    private InputManager inputManager;
+    private DrawingSystem drawingSystem;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
-        engine = new Engine();
-        drawingSystem = new DrawingSystem(engine, batch);
-
+        screenManager = new ScreenManager();
+        camera = new OrthographicCamera();
         worldSize = new Vector2(2000, 2000);
 
-        camera = new OrthographicCamera();
         camera.translate(worldSize.x / 2, worldSize.y / 2, 0);
         viewPort = new ScreenViewport(camera);
-
-        inputManager = new InputManager(camera, worldSize);
+        stage = new Stage();
 
         font = new BitmapFont();
         fps = new FPSLogger();
+
+        engine = new Engine();
+        drawingSystem = new DrawingSystem(engine, batch);
+        inputManager = new InputManager(camera, worldSize);
 
         engine.addSystem(new StateSystem());
         engine.addSystem(new NewTargetSystem(worldSize));
@@ -65,14 +75,12 @@ public class LifeTries extends ApplicationAdapter {
     }
 
     private void generateLife() {
-        while (engine.getEntities().size() < 2000) {
-            engine.addEntity(
-                    new LifeBeing(
-                            MathUtils.random() * worldSize.x,
-                            MathUtils.random() * worldSize.y,
-                            MathUtils.randomBoolean()
-                    )
-            );
+        while (engine.getEntities().size() < 100) {
+            engine.addEntity(new LifeBeingEntity(
+                    MathUtils.random() * worldSize.x,
+                    MathUtils.random() * worldSize.y,
+                    MathUtils.randomBoolean()
+            ));
         }
     }
 

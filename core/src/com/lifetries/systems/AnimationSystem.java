@@ -26,7 +26,7 @@ public class AnimationSystem extends IteratingSystem {
         AnimationComponent animation = Mappers.animation.get(entity);
         VelocityComponent velocity = Mappers.velocity.get(entity);
         StateComponent state = Mappers.state.get(entity);
-                
+
         if (state.isMoving) {
             switch (velocity.lastDirection) {
                 case Left:
@@ -64,5 +64,7 @@ public class AnimationSystem extends IteratingSystem {
                     break;
             }
         }
+
+        animation.currentTexture = animation.currentAnimation.getKeyFrame(deltaTime, true);
     }
 }
