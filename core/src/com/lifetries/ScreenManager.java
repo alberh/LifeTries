@@ -40,7 +40,6 @@ public class ScreenManager implements EntityListener {
     public void entityAdded(Entity entity) {
         EntityActorComponent actor = Mappers.actor.get(entity);
         if (actor != null) {
-            Gdx.app.log("!", "Añadiendo actor ");
             stage.addActor(actor);
         }
     }
@@ -49,12 +48,11 @@ public class ScreenManager implements EntityListener {
     public void entityRemoved(Entity entity) {
         EntityActorComponent actor = Mappers.actor.get(entity);
         if (actor != null) {
-            Gdx.app.log("!", "Eliminando actor ");
             actor.remove();
         }
     }
 
-    public void draw() {
+    public void update() {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

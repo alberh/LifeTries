@@ -1,5 +1,6 @@
 package com.lifetries;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -56,6 +57,8 @@ class MyInputProcessor implements InputProcessor {
 */
 public class InputManager {
 
+    public final LifeTries game;
+    
     public float CAMERA_SPEED = 400;
     public float ZOOM_SPEED = 1.5f;
     public float ZOOM_MAX = 0.1f;
@@ -63,14 +66,19 @@ public class InputManager {
     private final OrthographicCamera camera;
     private final Vector2 worldSize;
     
-    private int screenWidth;
-    private int screenHeight;
+    private int screenWidth = 1024;
+    private int screenHeight = 600;
 
     public InputManager(LifeTries game) {
+        this.game = game;
         camera = game.screenManager.camera;
         worldSize = game.worldSize;
 
         //Gdx.input.setInputProcessor(new MyInputProcessor());
+    }
+    
+    public void entityTouched(Entity entity) {
+        game.engine.removeEntity(entity);
     }
 
     public void update(float deltaTime) {

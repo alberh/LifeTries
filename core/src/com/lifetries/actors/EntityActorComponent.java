@@ -2,7 +2,6 @@ package com.lifetries.actors;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.lifetries.Mappers;
@@ -12,7 +11,7 @@ import com.lifetries.components.PositionComponent;
 
 public class EntityActorComponent extends Actor implements Component {
 
-    private final Entity entity;
+    public final Entity entity;
 
     public EntityActorComponent(Entity entity) {
         this.entity = entity;

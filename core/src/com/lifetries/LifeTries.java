@@ -23,7 +23,7 @@ public class LifeTries extends ApplicationAdapter {
     // Back-end
     public Vector2 worldSize;
     public Engine engine;
-    private InputManager inputManager;
+    public InputManager inputManager;
 
     @Override
     public void create() {
@@ -38,19 +38,19 @@ public class LifeTries extends ApplicationAdapter {
         engine.addSystem(new MovementSystem());
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new EnergySystem());
-        
         engine.addEntityListener(screenManager);
 
-        Assets.load();
-
-        generateLife();
         Gdx.graphics.setTitle("Life Tries");
         Gdx.graphics.setVSync(true);
+        
+        Assets.load();
+        generateLife();
     }
 
     private void generateLife() {
         while (engine.getEntities().size() < 1000) {
             engine.addEntity(new LifeBeingEntity(
+                    this,
                     MathUtils.random() * worldSize.x,
                     MathUtils.random() * worldSize.y,
                     MathUtils.randomBoolean()
@@ -63,7 +63,7 @@ public class LifeTries extends ApplicationAdapter {
         float deltaTime = Gdx.graphics.getDeltaTime();
         inputManager.update(deltaTime);
         engine.update(deltaTime);
-        screenManager.draw();
+        screenManager.update();
     }
 
     @Override
