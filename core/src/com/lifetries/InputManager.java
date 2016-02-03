@@ -6,7 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-
+/*
 class MyInputProcessor implements InputProcessor {
 
     private int screenWidth;
@@ -53,7 +53,7 @@ class MyInputProcessor implements InputProcessor {
     }
     
 }
-
+*/
 public class InputManager {
 
     public float CAMERA_SPEED = 400;
@@ -66,11 +66,11 @@ public class InputManager {
     private int screenWidth;
     private int screenHeight;
 
-    public InputManager(OrthographicCamera camera, Vector2 worldSize) {
-        this.camera = camera;
-        this.worldSize = worldSize;
+    public InputManager(LifeTries game) {
+        camera = game.screenManager.camera;
+        worldSize = game.worldSize;
 
-        Gdx.input.setInputProcessor(new MyInputProcessor());
+        //Gdx.input.setInputProcessor(new MyInputProcessor());
     }
 
     public void update(float deltaTime) {

@@ -1,6 +1,5 @@
 package com.lifetries;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Gdx;
@@ -11,14 +10,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.lifetries.actors.EntityActor;
-import com.lifetries.entities.LifeBeingEntity;
-import com.sun.javafx.scene.SceneUtils;
-import javafx.geometry.Point2D;
+import com.lifetries.actors.EntityActorComponent;
 
 public class ScreenManager implements EntityListener {
 
-    private final Engine engine;
     private final SpriteBatch batch;
 
     private final Stage stage;
@@ -29,14 +24,13 @@ public class ScreenManager implements EntityListener {
     private final FPSLogger fps;
 
     public ScreenManager(LifeTries game) {
-        this.engine = game.engine;
         this.batch = game.batch;
 
         camera = new OrthographicCamera();
 
         camera.translate(game.worldSize.x / 2, game.worldSize.y / 2, 0);
         viewPort = new ScreenViewport(camera);
-        stage = new Stage();
+        stage = new Stage(viewPort, batch);
 
         font = new BitmapFont();
         fps = new FPSLogger();
@@ -44,29 +38,37 @@ public class ScreenManager implements EntityListener {
 
     @Override
     public void entityAdded(Entity entity) {
-        LifeBeingEntity lbe = (LifeBeingEntity) entity;
-        EntityActor actor = new EntityActor(lbe);
-        stage.addActor(actor);
+        EntityActorComponent actor = Mappers.actor.get(entity);
+        if (actor != null) {
+            Gdx.app.log("!", "Añadiendo actor ");
+            stage.addActor(actor);
+        }
     }
 
     @Override
     public void entityRemoved(Entity entity) {
-        
+        EntityActorComponent actor = Mappers.actor.get(entity);
+        if (actor != null) {
+            Gdx.app.log("!", "Eliminando actor ");
+            actor.remove();
+        }
     }
 
-    public void draw(float deltaTime) {
-        stage.draw();
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
-
+    public void draw() {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
-        drawingSystem.draw(deltaTime);
-        batch.end();
-
+        stage.draw();
+        
         fps.log();
     }
 
+    public void resize(int width, int height) {
+        viewPort.update(width, height);
+    }
+
+    public void dispose() {
+        stage.dispose();
+        font.dispose();
+    }
 }

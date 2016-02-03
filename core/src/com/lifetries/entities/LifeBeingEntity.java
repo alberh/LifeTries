@@ -3,6 +3,7 @@ package com.lifetries.entities;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import com.lifetries.actors.EntityActorComponent;
 import com.lifetries.assets.Assets;
 import com.lifetries.components.BouncingComponent;
 import com.lifetries.components.ColorComponent;
@@ -25,6 +26,7 @@ public class LifeBeingEntity extends Entity {
         add(new VelocityComponent());
         add(new BouncingComponent());
         add(new TargetPositionComponent());
+        add(new EntityActorComponent(this));
         
         PositionComponent ps = new PositionComponent();
         ps.x = posX;
