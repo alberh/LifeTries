@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lifetries.Mappers;
 import com.lifetries.components.AnimationComponent;
 import com.lifetries.components.ColorComponent;
 import com.lifetries.components.PositionComponent;

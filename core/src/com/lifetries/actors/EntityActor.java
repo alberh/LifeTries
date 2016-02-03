@@ -8,14 +8,14 @@ import com.lifetries.components.ColorComponent;
 import com.lifetries.components.PositionComponent;
 import com.lifetries.entities.LifeBeingEntity;
 
-public class LifeBeingActor extends Actor {
+public class EntityActor extends Actor {
 
     private final LifeBeingEntity entity;
     private final PositionComponent position;
     private final AnimationComponent animation;
     private final ColorComponent color;
 
-    public LifeBeingActor(LifeBeingEntity entity) {
+    public EntityActor(LifeBeingEntity entity) {
         this.entity = entity;
         position = Mappers.position.get(entity);
         animation = Mappers.animation.get(entity);

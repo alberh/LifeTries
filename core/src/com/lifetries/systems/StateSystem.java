@@ -56,7 +56,8 @@ public class StateSystem extends IteratingSystem {
             if (energy.currentEnergy == 0) {
                 state.hasEnergy = false;
             }
-        } else if (state.isChargingEnergy && energy.currentEnergy == energy.energyMax) {
+        } else if (state.isChargingEnergy && energy.currentEnergy >= energy.energyMax) {
+            energy.currentEnergy = energy.energyMax;
             state.hasEnergy = true;
         } else if (MathUtils.randomBoolean(chargeProb)) {
             state.isChargingEnergy = true;

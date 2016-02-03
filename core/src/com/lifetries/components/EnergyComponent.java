@@ -6,5 +6,5 @@ public class EnergyComponent implements Component {
     
     public float energyMax = 1;
     public float currentEnergy = 1;
-    public float energyLoss = 0.1f;//0.01f;
+    public float energyLoss = 0.1f;
 }

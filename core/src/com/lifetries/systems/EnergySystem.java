@@ -27,7 +27,7 @@ public class EnergySystem extends IteratingSystem {
         if (state.hasEnergy) {
             energy.currentEnergy
                     = Math.max(energy.currentEnergy - energy.energyLoss * deltaTime, 0);
-        } else if (state.isChargingEnergy && energy.currentEnergy < energy.energyMax) {
+        } else if (state.isChargingEnergy) {
             energy.currentEnergy
                     = Math.min(energy.currentEnergy + 3 * energy.energyLoss, energy.energyMax);
         }

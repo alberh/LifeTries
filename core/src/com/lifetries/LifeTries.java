@@ -19,47 +19,26 @@ import com.lifetries.systems.EnergySystem;
 import com.lifetries.systems.MovementSystem;
 import com.lifetries.systems.NewTargetSystem;
 import com.lifetries.systems.StateSystem;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
 
 public class LifeTries extends ApplicationAdapter {
 
     // Front-end
-    private SpriteBatch batch;
-    private ScreenManager screenManager;
-
-    private Stage stage;
-    private OrthographicCamera camera;
-    private ScreenViewport viewPort;
-
-    private Vector2 worldSize;
-
-    private BitmapFont font;
-    private FPSLogger fps;
+    public SpriteBatch batch;
+    public ScreenManager screenManager;
 
     // Back-end
-    private Engine engine;
+    public Vector2 worldSize;
+    public Engine engine;
     private InputManager inputManager;
     private DrawingSystem drawingSystem;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        screenManager = new ScreenManager();
-        camera = new OrthographicCamera();
-        worldSize = new Vector2(2000, 2000);
-
-        camera.translate(worldSize.x / 2, worldSize.y / 2, 0);
-        viewPort = new ScreenViewport(camera);
-        stage = new Stage();
-
-        font = new BitmapFont();
-        fps = new FPSLogger();
-
         engine = new Engine();
-        drawingSystem = new DrawingSystem(engine, batch);
-        inputManager = new InputManager(camera, worldSize);
+        worldSize = new Vector2(2000, 2000);
+        screenManager = new ScreenManager(this);
+        inputManager = new InputManager(screenManager.camera, worldSize);
 
         engine.addSystem(new StateSystem());
         engine.addSystem(new NewTargetSystem(worldSize));
@@ -90,6 +69,10 @@ public class LifeTries extends ApplicationAdapter {
     }
 
     public void draw(float deltaTime) {
+        screenManager.draw(deltaTime);
+        
+        
+        /*
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
@@ -101,6 +84,7 @@ public class LifeTries extends ApplicationAdapter {
         batch.end();
 
         fps.log();
+                */
     }
 
     @Override
