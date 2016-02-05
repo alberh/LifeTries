@@ -1,6 +1,7 @@
 package com.lifetries.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.MathUtils;
 
 public class StateComponent implements Component {
@@ -14,4 +15,7 @@ public class StateComponent implements Component {
     
     public boolean hasEnergy;
     public boolean isChargingEnergy;
+    
+    public boolean isSelected;
+    public static Entity selectedEntity;
 }

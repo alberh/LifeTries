@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.lifetries.LifeTries;
-import com.lifetries.actors.EntityActorComponent;
+import com.lifetries.components.ActorComponent;
 import com.lifetries.assets.Assets;
 import com.lifetries.components.BouncingComponent;
 import com.lifetries.components.ColorComponent;
@@ -20,11 +20,11 @@ import com.lifetries.components.VelocityComponent;
 
 public class LifeBeingEntity extends Entity {
 
-    public LifeBeingEntity(LifeTries game) {
-        this(game, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, false);
+    public LifeBeingEntity() {
+        this(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, false);
     }
 
-    public LifeBeingEntity(final LifeTries game, float posX, float posY, boolean skinB) {
+    public LifeBeingEntity(float posX, float posY, boolean skinB) {
 
         add(new EnergyComponent());
         add(new StateComponent());
@@ -51,17 +51,27 @@ public class LifeBeingEntity extends Entity {
         }
         add(entityAnimation);
 
-        EntityActorComponent actor = new EntityActorComponent(this);
+        ActorComponent actor = new ActorComponent(this);
         actor.setBounds(posX, posY, 10, 10);
         actor.setTouchable(Touchable.enabled);
         actor.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("LifeBeingEntity", "Entidad tocada");
-
-                Entity entity = ((EntityActorComponent) event.getTarget()).entity;
-                game.inputManager.entityTouched(entity);
+                Entity entity = ((ActorComponent) event.getTarget()).entity;
+                LifeTries.game.inputManager.touchDown(entity);
                 return true;
+            }
+
+            @Override
+            public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                Entity entity = ((ActorComponent) event.getTarget()).entity;
+                LifeTries.game.inputManager.touchDragged(entity);
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                Entity entity = ((ActorComponent) event.getTarget()).entity;
+                LifeTries.game.inputManager.touchUp(entity);
             }
         });
         add(actor);

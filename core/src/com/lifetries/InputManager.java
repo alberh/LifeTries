@@ -3,82 +3,48 @@ package com.lifetries;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-/*
-class MyInputProcessor implements InputProcessor {
+import com.lifetries.components.StateComponent;
 
-    private int screenWidth;
-    private int screenHeight;
-    
-    @Override
-    public boolean keyDown(int keycode) {
-        return true;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return true;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return true;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return true;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return true;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return true;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return true;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return true;
-    }
-    
-}
-*/
 public class InputManager {
 
-    public final LifeTries game;
-    
     public float CAMERA_SPEED = 400;
     public float ZOOM_SPEED = 1.5f;
     public float ZOOM_MAX = 0.1f;
 
     private final OrthographicCamera camera;
     private final Vector2 worldSize;
-    
+
     private int screenWidth = 1024;
     private int screenHeight = 600;
 
-    public InputManager(LifeTries game) {
-        this.game = game;
-        camera = game.screenManager.camera;
-        worldSize = game.worldSize;
-
-        //Gdx.input.setInputProcessor(new MyInputProcessor());
+    public InputManager() {
+        camera = LifeTries.game.screenManager.camera;
+        worldSize = LifeTries.game.worldSize;
     }
-    
-    public void entityTouched(Entity entity) {
-        game.engine.removeEntity(entity);
+
+    public void touchDown(Entity entity) {
+        StateComponent state = Mappers.state.get(entity);
+        state.isSelected = true;
+
+        if (StateComponent.selectedEntity != null) {
+            StateComponent lastSelectedState = Mappers.state.get(
+                    StateComponent.selectedEntity
+            );
+            lastSelectedState.isSelected = false;
+        }
+
+        StateComponent.selectedEntity = entity;
+    }
+
+    public void touchDragged(Entity entity) {
+
+    }
+
+    public void touchUp(Entity entity) {
+        // code goes here
     }
 
     public void update(float deltaTime) {

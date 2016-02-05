@@ -16,6 +16,8 @@ import com.lifetries.systems.StateSystem;
 
 public class LifeTries extends ApplicationAdapter {
 
+    public static LifeTries game;
+    
     // Front-end
     public SpriteBatch batch;
     public ScreenManager screenManager;
@@ -27,11 +29,13 @@ public class LifeTries extends ApplicationAdapter {
 
     @Override
     public void create() {
+        game = this;
+        
         batch = new SpriteBatch();
         engine = new Engine();
         worldSize = new Vector2(2000, 2000);
-        screenManager = new ScreenManager(this);
-        inputManager = new InputManager(this);
+        screenManager = new ScreenManager();
+        inputManager = new InputManager();
 
         engine.addSystem(new StateSystem());
         engine.addSystem(new NewTargetSystem(worldSize));
@@ -48,9 +52,8 @@ public class LifeTries extends ApplicationAdapter {
     }
 
     private void generateLife() {
-        while (engine.getEntities().size() < 1000) {
+        while (engine.getEntities().size() < 300) {
             engine.addEntity(new LifeBeingEntity(
-                    this,
                     MathUtils.random() * worldSize.x,
                     MathUtils.random() * worldSize.y,
                     MathUtils.randomBoolean()
@@ -64,6 +67,7 @@ public class LifeTries extends ApplicationAdapter {
         inputManager.update(deltaTime);
         engine.update(deltaTime);
         screenManager.update();
+        //screenManager.draw();
     }
 
     @Override

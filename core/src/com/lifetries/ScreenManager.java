@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.lifetries.actors.EntityActorComponent;
+import com.lifetries.components.ActorComponent;
 
 public class ScreenManager implements EntityListener {
 
@@ -23,14 +23,15 @@ public class ScreenManager implements EntityListener {
     private final BitmapFont font;
     private final FPSLogger fps;
 
-    public ScreenManager(LifeTries game) {
-        this.batch = game.batch;
+    public ScreenManager() {
+        this.batch = LifeTries.game.batch;
 
         camera = new OrthographicCamera();
 
-        camera.translate(game.worldSize.x / 2, game.worldSize.y / 2, 0);
+        camera.translate(LifeTries.game.worldSize.x / 2, LifeTries.game.worldSize.y / 2, 0);
         viewPort = new ScreenViewport(camera);
         stage = new Stage(viewPort, batch);
+        Gdx.input.setInputProcessor(stage);
 
         font = new BitmapFont();
         fps = new FPSLogger();
@@ -38,7 +39,7 @@ public class ScreenManager implements EntityListener {
 
     @Override
     public void entityAdded(Entity entity) {
-        EntityActorComponent actor = Mappers.actor.get(entity);
+        ActorComponent actor = Mappers.actor.get(entity);
         if (actor != null) {
             stage.addActor(actor);
         }
@@ -46,7 +47,7 @@ public class ScreenManager implements EntityListener {
 
     @Override
     public void entityRemoved(Entity entity) {
-        EntityActorComponent actor = Mappers.actor.get(entity);
+        ActorComponent actor = Mappers.actor.get(entity);
         if (actor != null) {
             actor.remove();
         }

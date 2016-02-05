@@ -3,8 +3,10 @@ package com.lifetries.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.lifetries.Mappers;
+import com.lifetries.components.ActorComponent;
 import com.lifetries.components.BouncingComponent;
 import com.lifetries.components.PositionComponent;
 import com.lifetries.components.StateComponent;
@@ -31,6 +33,7 @@ public class MovementSystem extends IteratingSystem {
         TargetPositionComponent targetPosition = Mappers.targetPosition.get(entity);
         VelocityComponent velocity = Mappers.velocity.get(entity);
         StateComponent state = Mappers.state.get(entity);
+        ActorComponent actor = Mappers.actor.get(entity);
 
         if (state.hasEnergy && state.isMoving) {
             Vector2 start = new Vector2(position.x, position.y);
@@ -49,6 +52,10 @@ public class MovementSystem extends IteratingSystem {
             } else {
                 position.x = targetPosition.x;
                 position.y = targetPosition.y;
+            }
+            
+            if (actor != null) {
+                actor.setPosition(position.x, position.y);
             }
         }
     }
