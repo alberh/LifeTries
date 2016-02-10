@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lifetries.components.ActorComponent;
@@ -31,6 +33,24 @@ public class ScreenManager implements EntityListener {
         camera.translate(LifeTries.game.worldSize.x / 2, LifeTries.game.worldSize.y / 2, 0);
         viewPort = new ScreenViewport(camera);
         stage = new Stage(viewPort, batch);
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                LifeTries.game.inputManager.stageTouchDown(x, y, pointer, button);
+                return true;
+            }
+
+            @Override
+            public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                // LifeTries.game.inputManager.entityTouchDragged(entity);
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                // LifeTries.game.inputManager.entityTouchUp(entity);
+            }
+        });
+        
         Gdx.input.setInputProcessor(stage);
 
         font = new BitmapFont();

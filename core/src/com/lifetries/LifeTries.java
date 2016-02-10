@@ -20,7 +20,8 @@ public class LifeTries extends ApplicationAdapter {
     
     // Front-end
     public SpriteBatch batch;
-    public ScreenManager screenManager;
+    public ScreenManager screen;
+    public SelectionManager selection;
 
     // Back-end
     public Vector2 worldSize;
@@ -34,7 +35,8 @@ public class LifeTries extends ApplicationAdapter {
         batch = new SpriteBatch();
         engine = new Engine();
         worldSize = new Vector2(2000, 2000);
-        screenManager = new ScreenManager();
+        screen = new ScreenManager();
+        selection = new SelectionManager();
         inputManager = new InputManager();
 
         engine.addSystem(new StateSystem());
@@ -42,7 +44,7 @@ public class LifeTries extends ApplicationAdapter {
         engine.addSystem(new MovementSystem());
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new EnergySystem());
-        engine.addEntityListener(screenManager);
+        engine.addEntityListener(screen);
 
         Gdx.graphics.setTitle("Life Tries");
         Gdx.graphics.setVSync(true);
@@ -66,18 +68,18 @@ public class LifeTries extends ApplicationAdapter {
         float deltaTime = Gdx.graphics.getDeltaTime();
         inputManager.update(deltaTime);
         engine.update(deltaTime);
-        screenManager.update();
+        screen.update();
         //screenManager.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        screenManager.resize(width, height);
+        screen.resize(width, height);
     }
 
     @Override
     public void dispose() {
-        screenManager.dispose();
+        screen.dispose();
         // ya llamado por stage.dispose()
         // batch.dispose();
         Assets.dispose();

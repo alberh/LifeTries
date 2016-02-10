@@ -2,6 +2,7 @@ package com.lifetries.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -27,10 +28,13 @@ public class LifeBeingEntity extends Entity {
     public LifeBeingEntity(float posX, float posY, boolean skinB) {
 
         add(new EnergyComponent());
-        add(new StateComponent());
         add(new VelocityComponent());
         add(new BouncingComponent());
         add(new TargetPositionComponent());
+
+        StateComponent state = new StateComponent();
+        state.autoPilot = true;
+        add(state);
 
         PositionComponent ps = new PositionComponent();
         ps.x = posX;
@@ -57,21 +61,24 @@ public class LifeBeingEntity extends Entity {
         actor.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Entity entity = ((ActorComponent) event.getTarget()).entity;
-                LifeTries.game.inputManager.touchDown(entity);
+                if (button == Buttons.LEFT) {
+                    Entity entity = ((ActorComponent) event.getTarget()).entity;
+                    LifeTries.game.inputManager.entityTouchDown(entity);
+                }
+
                 return true;
             }
 
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 Entity entity = ((ActorComponent) event.getTarget()).entity;
-                LifeTries.game.inputManager.touchDragged(entity);
+                LifeTries.game.inputManager.entityTouchDragged(entity);
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 Entity entity = ((ActorComponent) event.getTarget()).entity;
-                LifeTries.game.inputManager.touchUp(entity);
+                LifeTries.game.inputManager.entityTouchUp(entity);
             }
         });
         add(actor);

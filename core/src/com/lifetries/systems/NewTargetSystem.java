@@ -63,6 +63,13 @@ public class NewTargetSystem extends IteratingSystem {
             }
         }
     }
+    
+    public static Vector2 getVelocity(Vector2 position, Vector2 target) {
+        float deltaY = target.y - position.y;
+            float deltaX = target.x - position.x;
+        float angle = MathUtils.atan2(deltaY, deltaX);
+        return new Vector2(MathUtils.cos(angle), MathUtils.sin(angle));
+    }
 
     private Vector2 getNewCoords() {
         return new Vector2(

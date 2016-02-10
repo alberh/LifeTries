@@ -54,7 +54,7 @@ public class StateSystem extends IteratingSystem {
     private void energyChecks() {
         if (state.hasEnergy) {
             if (energy.currentEnergy == 0) {
-                state.hasEnergy = false;
+                //state.hasEnergy = false;
             }
         } else if (state.isChargingEnergy && energy.currentEnergy == energy.energyMax) {
             state.hasEnergy = true;
@@ -64,7 +64,7 @@ public class StateSystem extends IteratingSystem {
     }
 
     private void standChecks() {
-        if (!state.isMoving && state.hasEnergy) {
+        if (state.autoPilot && !state.isMoving && state.hasEnergy) {
             if (MathUtils.randomBoolean(0.33f)) {
                 state.wantsToLook = true;
             } else if (MathUtils.randomBoolean(0.2f)) {
@@ -77,16 +77,12 @@ public class StateSystem extends IteratingSystem {
     private void movingChecks() {
         if (state.isMoving) {
             if (state.hasEnergy) {
+                // checks if the entity is in its target position
                 if (position.x == targetPosition.x && position.y == targetPosition.y) {
                     state.isMoving = false;
-                    state.isRunning = false;
-                } else if (energy.currentEnergy >= runEnergyProp * energy.energyMax
-                        && MathUtils.randomBoolean(runProb)) {
-                    state.isRunning = true;
                 }
             } else {
                 state.isMoving = false;
-                state.isRunning = false;
             }
         }
     }

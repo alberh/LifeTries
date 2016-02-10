@@ -3,10 +3,16 @@ package com.lifetries;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
+import com.lifetries.components.PositionComponent;
 import com.lifetries.components.StateComponent;
+import com.lifetries.components.TargetPositionComponent;
+import com.lifetries.components.VelocityComponent;
+import com.lifetries.systems.NewTargetSystem;
 
 public class InputManager {
 
@@ -21,30 +27,54 @@ public class InputManager {
     private int screenHeight = 600;
 
     public InputManager() {
-        camera = LifeTries.game.screenManager.camera;
+        camera = LifeTries.game.screen.camera;
         worldSize = LifeTries.game.worldSize;
     }
 
-    public void touchDown(Entity entity) {
-        StateComponent state = Mappers.state.get(entity);
-        state.isSelected = true;
-
-        if (StateComponent.selectedEntity != null) {
-            StateComponent lastSelectedState = Mappers.state.get(
-                    StateComponent.selectedEntity
-            );
-            lastSelectedState.isSelected = false;
-        }
-
-        StateComponent.selectedEntity = entity;
+    public void entityTouchDown(Entity entity) {
+        LifeTries.game.selection.selectOne(entity);
     }
 
-    public void touchDragged(Entity entity) {
+    public void entityTouchDragged(Entity entity) {
 
     }
 
-    public void touchUp(Entity entity) {
+    public void entityTouchUp(Entity entity) {
         // code goes here
+    }
+
+    public void stageTouchDown(float x, float y, int pointer, int button) {
+        if (button == Buttons.RIGHT) {
+            Array<Entity> selected = LifeTries.game.selection.selected;
+
+            if (selected.size > 0) {
+                Entity entity;
+                PositionComponent position;
+                TargetPositionComponent target;
+                StateComponent state;
+                VelocityComponent velocity;
+                
+                for (int i = 0; i < selected.size; i++) {
+                    entity = selected.get(i);
+                    position = Mappers.position.get(entity);
+                    target = Mappers.targetPosition.get(entity);
+                    state = Mappers.state.get(entity);
+                    velocity = Mappers.velocity.get(entity);
+                    
+                    target.x = x;
+                    target.y = y;
+                    
+                    Vector2 auxV = NewTargetSystem.getVelocity(
+                            new Vector2(position.x, position.y),
+                            new Vector2(target.x, target.y)
+                    );
+                    velocity.x = auxV.x;
+                    velocity.y = auxV.y;
+                    
+                    state.autoPilot = false;
+                }
+            }
+        }
     }
 
     public void update(float deltaTime) {
