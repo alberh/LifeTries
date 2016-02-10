@@ -1,6 +1,7 @@
 package com.lifetries;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.lifetries.components.StateComponent;
 
@@ -12,17 +13,11 @@ public class SelectionManager {
         selected = new Array<Entity>();
     }
 
-    public Entity getFirst() {
-        if (selected.size > 0) {
-            return selected.first();
-        } else {
-            return null;
-        }
-    }
-
     public void selectOne(Entity entity) {
         StateComponent state;
 
+        
+        Gdx.app.log("SelectionManager", ":" + selected.size);
         if (selected.size > 0) {
             for (int i = 0; i < selected.size; i++) {
                 state = Mappers.state.get(selected.get(i));
@@ -30,10 +25,14 @@ public class SelectionManager {
             }
             selected.clear();
         }
+        selected.add(entity);
+        Gdx.app.log("SelectionManager", ":" + selected.size);
 
         state = Mappers.state.get(entity);
         state.isSelected = true;
-
-        selected.add(entity);
+    }
+    
+    public void deselect() {
+        selected.clear();
     }
 }
